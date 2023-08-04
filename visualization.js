@@ -47,7 +47,7 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
       .attr('y', margin.top / 2)
       .attr('text-anchor', 'middle')
       .attr('font-size', '24px')
-      .text('The Cost of Shirts Relative to Median Annual Wage');
+      .text('The Cost of Clothing Relative to Median Annual Wage');
 
     // Function to update the shirt size and year label based on the current year
     function update(year) {
