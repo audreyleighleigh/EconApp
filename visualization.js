@@ -26,18 +26,18 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
     // Create a scale for the shirt size
     const sizeScale = d3.scaleLinear()
       .domain(d3.extent(data, d => d.SIZE))
-      .range([100, 500]); 
+      .range([100, 500]);
 
     // Create the shirt image
     const shirt = svg.append('image')
       .attr('href', 'https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e5b9e1ddd68eb961c35d1899ccda/Shirt.png')
       .attr('y', margin.top + 150) // Move the shirt lower
-      .attr('width', 500) 
-      .attr('height', 500); 
+      .attr('width', 500)
+      .attr('height', 500);
 
     // Create a text label to display the current year
     const yearLabel = svg.append('text')
-      .attr('y', height - margin.bottom / 2)
+      .attr('y', margin.top + 20) // Move the year label below the button
       .attr('text-anchor', 'middle')
       .attr('font-size', '20px');
 
@@ -58,6 +58,8 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
         shirt.attr('x', xScale(sizeRow.YEAR) - shirtSize / 2);
       }
       yearLabel.text(`Year: ${Math.floor(year)}`);
+      yearLabel.attr('x', button.datum().x);
+      yearLabel.attr('y', margin.top + 20); // Move the year label below the button
     }
 
     // Create the drag behavior
@@ -72,7 +74,7 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
 
     // Draw the button
     const button = svg.append('circle')
-      .datum({ x: width / 2 }) 
+      .datum({ x: width / 2 })
       .attr('class', 'button')
       .attr('cx', d => d.x)
       .attr('cy', margin.top)
