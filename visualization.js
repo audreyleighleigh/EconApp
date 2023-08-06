@@ -18,6 +18,14 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
       .attr('width', width)
       .attr('height', height);
 
+    // Add a gray bar beneath the blue dot
+    svg.append("rect")
+      .attr("x", margin.left)
+      .attr("y", margin.top + 5) // Adjust the vertical position of the gray bar
+      .attr("width", width - margin.left - margin.right)
+      .attr("height", 2)
+      .style("fill", "#ccc");
+
     // Create a scale for the x-coordinate
     const xScale = d3.scaleLinear()
       .domain(d3.extent(data, d => d.YEAR))
@@ -37,7 +45,7 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
 
     // Create a text label to display the current year
     const yearLabel = svg.append('text')
-      .attr('y', margin.top + 20) // Move the year label below the button
+      .attr('y', margin.top + 40) // Adjust the vertical position of the year label
       .attr('text-anchor', 'middle')
       .attr('font-size', '20px');
 
@@ -59,7 +67,6 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
       }
       yearLabel.text(`Year: ${Math.floor(year)}`);
       yearLabel.attr('x', button.datum().x);
-      yearLabel.attr('y', margin.top + 20); // Move the year label below the button
     }
 
     // Create the drag behavior
@@ -86,3 +93,4 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
     update(initialYear);
     yearLabel.attr('x', button.datum().x);
 });
+
