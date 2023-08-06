@@ -10,13 +10,21 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
     // Set up SVG dimensions and margins
     const width = 800;
     const height = 800;
-    const margin = { top: 150, right: 200, bottom: 100, left: 60 }; // Increased the right margin
+    const margin = { top: 150, right: 100, bottom: 100, left: 60 };
 
     // Create the SVG element
     const svg = d3.select('#visualization-container')
       .append('svg')
       .attr('width', width)
       .attr('height', height);
+
+    // Add a gray bar beneath the blue dot
+    svg.append("rect")
+      .attr("x", margin.left)
+      .attr("y", margin.top + 5) // Adjust the vertical position of the gray bar
+      .attr("width", width - margin.left - margin.right)
+      .attr("height", 2)
+      .style("fill", "#ccc");
 
     // Create a scale for the x-coordinate
     const xScale = d3.scaleLinear()
@@ -26,18 +34,18 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
     // Create a scale for the shirt size
     const sizeScale = d3.scaleLinear()
       .domain(d3.extent(data, d => d.SIZE))
-      .range([100, 500]); 
+      .range([100, 500]);
 
     // Create the shirt image
     const shirt = svg.append('image')
       .attr('href', 'https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e5b9e1ddd68eb961c35d1899ccda/Shirt.png')
       .attr('y', margin.top + 150) // Move the shirt lower
-      .attr('width', 500) 
-      .attr('height', 500); 
+      .attr('width', 500)
+      .attr('height', 500);
 
     // Create a text label to display the current year
     const yearLabel = svg.append('text')
-      .attr('y', height - margin.bottom / 2)
+      .attr('y', margin.top + 40) // Adjust the vertical position of the year label
       .attr('text-anchor', 'middle')
       .attr('font-size', '20px');
 
@@ -59,9 +67,6 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
       }
       yearLabel.text(`Year: ${Math.floor(year)}`);
       yearLabel.attr('x', button.datum().x);
-
-      // Call the function to update the mini-shirt icon
-      updateMiniShirtIcon();
     }
 
     // Create the drag behavior
@@ -76,7 +81,7 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
 
     // Draw the button
     const button = svg.append('circle')
-      .datum({ x: width / 2 + 100 }) // Shifted the button to the right by 100
+      .datum({ x: width / 2 })
       .attr('class', 'button')
       .attr('cx', d => d.x)
       .attr('cy', margin.top)
@@ -87,24 +92,4 @@ d3.csv('https://raw.githubusercontent.com/audreyleighleigh/EconApp/c20a740318c2e
     const initialYear = xScale.invert(button.datum().x);
     update(initialYear);
     yearLabel.attr('x', button.datum().x);
-
-    // Variable to track if the shirt icon is selected
-    let shirtSelected = false;
-
-    // Function to toggle the shirt icon on and off
-    function toggleShirtIcon() {
-      const miniShirt = d3.select('#mini-shirt');
-      if (shirtSelected) {
-        miniShirt.classed('selected', false);
-      } else {
-        miniShirt.classed('selected', true);
-      }
-      shirtSelected = !shirtSelected;
-    }
-
-    // Update the mini-shirt icon appearance
-    function updateMiniShirtIcon() {
-      const miniShirt = d3.select('#mini-shirt');
-      miniShirt.classed('selected', shirtSelected);
-    }
 });
